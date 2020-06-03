@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+    android:id="@+id/swipe_refresh"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".views.user.fragments.cart">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <FrameLayout
+            android:id="@+id/frame"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:visibility="visible"
+            android:layout_above="@id/checkout_container"
+            android:layout_marginBottom="@dimen/margin">
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </FrameLayout>
+
+        <include
+            android:id="@+id/empty_page"
+            layout="@layout/empty_cart"
+            android:visibility="gone"
+            android:layout_above="@id/checkout_container"/>
+        <include
+            android:id="@+id/error_view"
+            layout="@layout/something_went_wrong"
+            android:visibility="gone"
+            android:layout_above="@id/checkout_container"/>
+        <LinearLayout
+            android:id="@+id/checkout_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_alignParentBottom="true"
+            android:background="@color/green"
+            android:visibility="gone">
+            <TextView
+                android:id="@+id/total_cart_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="@dimen/padding"
+                android:background="@drawable/cust_white_back"
+                android:textColor="@color/green"
+                android:fontFamily="@font/amarante"
+                android:layout_margin="@dimen/margin"/>
+            <TextView
+                android:id="@+id/checkout_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/checkout"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textColor="@drawable/change_text_color_on_press"
+                android:padding="@dimen/padding"
+                android:fontFamily="@font/amarante"
+                android:background="@drawable/change_background_on_press"
+                android:layout_margin="@dimen/margin"/>
+
+        </LinearLayout>
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="gone"/>
+    </RelativeLayout>
+
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:id="@+id/no_internet_iv"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:background="@color/white">
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/mandi_logo"/>
+    <ImageView
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        android:src="@drawable/ic_error_outline_black_24dp"
+        android:tint="@color/green"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/oops"
+        android:textSize="34dp"
+        android:textColor="@color/green" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/something_wrong"
+        android:textSize="@dimen/secondary_text"
+        android:textColor="@color/green"
+        android:gravity="center"/>
+    <TextView
+        android:id="@+id/try_again_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/padding"
+        android:gravity="center"
+        android:text="@string/try_again"
+        android:background="@drawable/cust_veg_white_back"
+        android:textColor="@color/green"
+        android:layout_margin="@dimen/margin"/>
+</LinearLayout>

@@ -1,0 +1,30 @@
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:visibility="visible"
+    android:background="@color/white"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/mandi_logo"/>
+    <TextView
+        android:id="@+id/empty_page_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/padding"
+        android:textColor="@color/green"
+        android:text="@string/empty_cart"
+        android:gravity="center"
+        android:textSize="@dimen/page_title"
+        android:fontFamily="@font/amarante"/>
+    <ImageView
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        tools:ignore="ContentDescription"
+        android:src="@drawable/ic_shopping_cart"
+        android:tint="@color/green"/>
+</LinearLayout>

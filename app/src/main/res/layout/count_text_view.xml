@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/item_count"
+    android:layout_width="24dp"
+    android:layout_height="24dp"
+    android:background="@drawable/cust_circle_back"
+    android:text="2"
+    android:gravity="center"
+    android:textColor="@color/white"
+    android:fontFamily="@font/amarante"/>

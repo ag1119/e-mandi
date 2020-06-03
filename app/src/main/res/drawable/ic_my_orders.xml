@@ -1,0 +1,30 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+  <path
+      android:pathData="M4,12l0,10 8,-0 8,-0 0,-10 0,-10 -8,-0 -8,-0 0,10zM18,12l0,8 -6,-0 -6,-0 0,-8 0,-8 6,-0 6,-0 0,8z"
+      android:fillColor="@color/dark_gray"
+      android:strokeColor="@color/dark_gray"/>
+  <path
+      android:pathData="M8,8c0,0.5 1.8,1 4,1 2.2,-0 4,-0.5 4,-1 0,-0.6 -1.8,-1 -4,-1 -2.2,-0 -4,0.4 -4,1z"
+      android:fillColor="@color/dark_gray"
+      android:strokeColor="@color/dark_gray"/>
+  <path
+      android:pathData="M8,13c0,0.5 0.5,1 1,1 0.6,-0 1,-0.5 1,-1 0,-0.6 -0.4,-1 -1,-1 -0.5,-0 -1,0.4 -1,1z"
+      android:fillColor="@color/dark_gray"
+      android:strokeColor="@color/dark_gray"/>
+  <path
+      android:pathData="M12,13c0,0.5 0.9,1 2,1 1.1,-0 2,-0.5 2,-1 0,-0.6 -0.9,-1 -2,-1 -1.1,-0 -2,0.4 -2,1z"
+      android:fillColor="@color/dark_gray"
+      android:strokeColor="@color/dark_gray"/>
+  <path
+      android:pathData="M8,16c0,0.5 0.5,1 1,1 0.6,-0 1,-0.5 1,-1 0,-0.6 -0.4,-1 -1,-1 -0.5,-0 -1,0.4 -1,1z"
+      android:fillColor="@color/dark_gray"
+      android:strokeColor="@color/dark_gray"/>
+  <path
+      android:pathData="M12,16c0,0.5 0.9,1 2,1 1.1,-0 2,-0.5 2,-1 0,-0.6 -0.9,-1 -2,-1 -1.1,-0 -2,0.4 -2,1z"
+      android:fillColor="@color/dark_gray"
+      android:strokeColor="@color/dark_gray"/>
+</vector>

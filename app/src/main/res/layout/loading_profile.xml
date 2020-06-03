@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:background="@color/green"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <RelativeLayout
+        android:layout_height="96dp"
+        android:layout_width="96dp"
+        style="@style/GenericProgressBackground"
+        android:layout_margin="@dimen/margin">
+        <ProgressBar
+            style="@style/GenericProgressIndicator"/>
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/padding"
+        android:orientation="vertical"
+        android:gravity="center_vertical">
+        <ProgressBar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:indeterminate="true"
+            android:indeterminateTint="@color/white" />
+        <ProgressBar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:indeterminate="true"
+            android:indeterminateTint="@color/white"
+            android:layout_marginTop="@dimen/margin"/>
+        <ProgressBar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:indeterminate="true"
+            android:indeterminateTint="@color/white"
+            android:layout_marginTop="@dimen/margin"/>
+        <ProgressBar
+            android:id="@+id/pb"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:indeterminate="true"
+            android:indeterminateTint="@color/white"
+            android:layout_marginTop="@dimen/margin"
+            android:visibility="gone"/>
+
+
+    </LinearLayout>
+
+</LinearLayout>

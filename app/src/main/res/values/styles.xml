@@ -1,0 +1,42 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/green</item>
+        <item name="colorPrimaryDark">@color/green</item>
+        <item name="colorAccent">@color/dark_green</item>
+    </style>
+
+    <style name="AppTheme2" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/wheat</item>
+        <item name="colorPrimaryDark">@color/wheat</item>
+        <item name="colorAccent">@color/wheat</item>
+    </style>
+
+    <style name="AppTheme3" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/apple</item>
+        <item name="colorPrimaryDark">@color/apple</item>
+        <item name="colorAccent">@color/apple</item>
+    </style>
+
+    <style name="ThemeOverlay.BottomNavView" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/green</item>
+        <item name="colorOnSurface">@color/dark_gray</item>
+    </style>
+
+    <style name="GenericProgressBackground" parent="android:Theme">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:background">@color/green</item>
+        <item name="android:gravity">center</item>
+    </style>
+    <style name="GenericProgressIndicator" parent="@android:style/Widget.ProgressBar.Small">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:indeterminate">true</item>
+    </style>
+
+</resources>
