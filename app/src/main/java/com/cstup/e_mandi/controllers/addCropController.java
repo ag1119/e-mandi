@@ -92,7 +92,7 @@ public class addCropController {
             public void onFailure(@NonNull Call<List<MyResponse>> call,@NonNull Throwable t) {
                 listener.showAddCropButton();
                 listener.hideProgressBar();
-                listener.showToast("Some problem occurred while adding the crop.");
+                listener.showToast(t.getMessage());
             }
         });
     }

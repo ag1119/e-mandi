@@ -4,7 +4,7 @@ import com.cstup.e_mandi.model.Order;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public class Orders {
     @SerializedName("delivery_address")
@@ -12,7 +12,7 @@ public class Orders {
     private String deliveryAddress;
     @SerializedName("order")
     @Expose
-    private List<Order> order = null;
+    private ArrayList<Order> order;
 
     public String getDeliveryAddress() {
         return deliveryAddress;
@@ -22,11 +22,11 @@ public class Orders {
         this.deliveryAddress = deliveryAddress;
     }
 
-    public List<Order> getOrder() {
-        return order;
+    public void setOrder(ArrayList<Order> order) {
+        this.order = order;
     }
 
-    public void setOrder(List<Order> order) {
-        this.order = order;
+    public ArrayList<Order> getOrder() {
+        return order;
     }
 }

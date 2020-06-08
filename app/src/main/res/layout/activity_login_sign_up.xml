@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,108 +8,113 @@
     android:background="@color/white"
     android:orientation="vertical"
     android:padding="@dimen/padding">
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:src="@drawable/mandi_logo"
-        tools:ignore="ContentDescription"
-        android:layout_marginTop="@dimen/margin"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="@dimen/padding"
-        android:background="@color/white">
-        <Button
-            android:id="@+id/login_btn"
+        android:orientation="vertical">
+        <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/cust_veg_back"
-            android:text="@string/login"
-            android:textColor="@color/white"
-            android:layout_weight="1"
-            android:layout_margin="@dimen/margin"
-            tools:ignore="ButtonStyle"
-            android:fontFamily="@font/amarante"/>
-        <Button
-            android:id="@+id/sign_up_btn"
+            android:src="@drawable/mandi_logo"
+            tools:ignore="ContentDescription"
+            android:layout_marginTop="@dimen/margin"/>
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/cust_veg_white_back"
-            android:text="@string/sign_up"
-            android:textColor="@color/green"
-            android:layout_weight="1"
-            android:layout_margin="@dimen/margin"
-            tools:ignore="ButtonStyle"
-            android:fontFamily="@font/amarante"/>
+            android:orientation="horizontal"
+            android:padding="@dimen/padding"
+            android:background="@color/white">
+            <Button
+                android:id="@+id/login_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/cust_veg_back"
+                android:text="@string/login"
+                android:textColor="@color/white"
+                android:layout_weight="1"
+                android:layout_margin="@dimen/margin"
+                tools:ignore="ButtonStyle"
+                android:fontFamily="@font/amarante"/>
+            <Button
+                android:id="@+id/sign_up_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/cust_veg_white_back"
+                android:text="@string/sign_up"
+                android:textColor="@color/green"
+                android:layout_weight="1"
+                android:layout_margin="@dimen/margin"
+                tools:ignore="ButtonStyle"
+                android:fontFamily="@font/amarante"/>
 
-    </LinearLayout>
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/padding">
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/phone_et"
+        </LinearLayout>
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/enter_mobile"
-            android:textColorHint="@color/green"
-            android:textColor="@color/green"
-            android:inputType="phone"
-            android:maxLength="10"
-            android:digits="0123456789"
-            android:textCursorDrawable="@null"
-            android:fontFamily="@font/amarante"/>
-    </com.google.android.material.textfield.TextInputLayout>
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/otp_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/padding"
-        android:visibility="gone">
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/otp_et"
+            android:padding="@dimen/padding">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/phone_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/enter_mobile"
+                android:textColorHint="@color/green"
+                android:textColor="@color/green"
+                android:inputType="phone"
+                android:maxLength="10"
+                android:digits="0123456789"
+                android:textCursorDrawable="@null"
+                android:fontFamily="@font/amarante"/>
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/otp_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/enter_otp"
-            android:textColorHint="@color/green"
-            android:textColor="@color/green"
-            android:inputType="number"
-            android:maxLength="5"
-            android:digits="0123456789"
-            android:textCursorDrawable="@null"
-            android:fontFamily="@font/amarante"/>
-    </com.google.android.material.textfield.TextInputLayout>
-    <TextView
-        android:id="@+id/resend_otp_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end"
-        android:layout_margin="@dimen/margin"
-        android:text="@string/resend_otp"
-        android:textStyle="bold"
-        android:textColor="@color/green"
-        android:padding="@dimen/padding"
-        android:visibility="gone"
-        android:fontFamily="@font/amarante"/>
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center">
-        <Button
-            android:id="@+id/send_otp_btn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/change_background_on_press"
-            android:text="@string/send_otp"
-            android:textColor="@drawable/change_text_color_on_press"
-            android:layout_margin="@dimen/margin"
-            android:fontFamily="@font/amarante"/>
-        <ProgressBar
-            android:id="@+id/progressBar"
+            android:padding="@dimen/padding"
+            android:visibility="gone">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/otp_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/enter_otp"
+                android:textColorHint="@color/green"
+                android:textColor="@color/green"
+                android:inputType="number"
+                android:maxLength="5"
+                android:digits="0123456789"
+                android:textCursorDrawable="@null"
+                android:fontFamily="@font/amarante"/>
+        </com.google.android.material.textfield.TextInputLayout>
+        <TextView
+            android:id="@+id/resend_otp_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:visibility="gone"/>
-    </RelativeLayout>
-</LinearLayout>
+            android:layout_gravity="end"
+            android:layout_margin="@dimen/margin"
+            android:text="@string/resend_otp"
+            android:textStyle="bold"
+            android:textColor="@color/green"
+            android:padding="@dimen/padding"
+            android:visibility="gone"
+            android:fontFamily="@font/amarante"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+            <Button
+                android:id="@+id/send_otp_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/change_background_on_press"
+                android:text="@string/send_otp"
+                android:textColor="@drawable/change_text_color_on_press"
+                android:layout_margin="@dimen/margin"
+                android:fontFamily="@font/amarante"/>
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:visibility="gone"/>
+        </RelativeLayout>
+    </LinearLayout>
+</ScrollView>

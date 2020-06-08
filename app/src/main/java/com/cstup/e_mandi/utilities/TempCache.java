@@ -9,7 +9,7 @@ import com.cstup.e_mandi.model.Get.CropType;
 import com.cstup.e_mandi.model.Get.MyCrops;
 import com.cstup.e_mandi.model.Get.User;
 import com.cstup.e_mandi.model.Get.Vendor;
-import com.cstup.e_mandi.model.Get.VendorDetails;
+import com.cstup.e_mandi.model.Get.BasicDetails;
 
 import java.util.ArrayList;
 
@@ -80,10 +80,10 @@ public class TempCache {
     //profile
     public static boolean isFetchUserProfileFirstCall = true;
     public static boolean isFetchVendorProfileFirstCall = true;
-    public static User user;
-    public static Vendor vendor;
+    public static User user = new User();
+    public static Vendor vendor = new Vendor();
 
     //vendor basic info
     public static boolean IS_VENDOR_BASIC_INFO_FIRST_CALL = true;
-    public static VendorDetails vendorDetails = new VendorDetails();
+    public static BasicDetails basicDetails = new BasicDetails();
 }

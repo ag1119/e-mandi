@@ -6,6 +6,7 @@ import android.net.Uri;
 
 import androidx.annotation.NonNull;
 
+import com.cstup.e_mandi.Cache.ProfileCache;
 import com.cstup.e_mandi.environmentVariables.ev;
 import com.cstup.e_mandi.model.Get.City;
 import com.cstup.e_mandi.model.Get.State;
@@ -67,9 +68,6 @@ public class profileController {
     }
     private Context context;
     private EventListener listener;
-    private ArrayList<City> cities = new ArrayList<>();
-    private ArrayList<City> allCities = new ArrayList<>();
-    private ArrayList<State> states = new ArrayList<>();
     private DataService service = RetrofitInstance.getService(ev.BASE_URL);
     private StorageReference storageReference = FirebaseStorage.getInstance().getReference();
     private Uri downloadImageUri;
@@ -132,15 +130,25 @@ public class profileController {
                 .getBoolean(user_type , false);
     }
 
-    public void fetchStates(){
+    private void fetchStates(){
         Call<List<State>> call = service.getStates();
         call.enqueue(new Callback<List<State>>() {
             @Override
             public void onResponse(@NonNull Call<List<State>> call,@NonNull Response<List<State>> response) {
                 if(response.isSuccessful()){
                     assert response.body() != null;
-                    states.addAll(response.body());
+                    ProfileCache.states.addAll(response.body());
                     listener.updateStates();
+                    if(TempCache.USER_TYPE.equals(constants.VENDOR)){
+                        Integer id = TempCache.vendor.getStateId();
+                        if(id != null)
+                            listener.setState(getStateById(id));
+                    }
+                    else{
+                        Integer id = TempCache.user.getStateId();
+                        if(id != null)
+                            listener.setState(getStateById(id));
+                    }
                 }
                 else
                     listener.showToast("some error occurred while fetching states");
@@ -153,15 +161,25 @@ public class profileController {
         });
     }
 
-    public void fetchCities(){
+    private void fetchCities(){
         Call<List<City>> call = service.getCities();
         call.enqueue(new Callback<List<City>>() {
             @Override
             public void onResponse(@NonNull Call<List<City>> call,@NonNull Response<List<City>> response) {
                 if(response.isSuccessful()) {
                     assert response.body() != null;
-                    allCities.addAll(response.body());
+                    ProfileCache.allCities.addAll(response.body());
                     listener.updateCities();
+                    if(TempCache.USER_TYPE.equals(constants.USER)){
+                        Integer id = TempCache.user.getCityId();
+                        if(id != null)
+                            listener.setCity(getCityById(id));
+                    }
+                    else{
+                        Integer id = TempCache.vendor.getCityId();
+                        if(id != null)
+                            listener.setCity(getCityById(id));
+                    }
                 }
                 else
                     listener.showToast("some error occurred while fetching cities");
@@ -175,18 +193,18 @@ public class profileController {
     }
 
     public ArrayList<City> getCities() {
-        return cities;
+        return ProfileCache.cities;
     }
 
     public ArrayList<State> getStates() {
-        return states;
+        return ProfileCache.states;
     }
 
     public void filterCityListByState(int state_id){
-        cities.clear();
-        for(City city: allCities){
+        ProfileCache.cities.clear();
+        for(City city: ProfileCache.allCities){
             if(city.getState_id() == state_id)
-                cities.add(city);
+                ProfileCache.cities.add(city);
         }
         listener.updateCities();
     }
@@ -297,6 +315,8 @@ public class profileController {
                     listener.setProfileViews();
                     listener.hideLoadingPanel();
                     listener.showInfo();
+                    fetchStates();
+                    fetchCities();
                 }
                 else{
                     listener.showToast(error_msg);
@@ -320,6 +340,8 @@ public class profileController {
                 if(response.isSuccessful()){
                     assert response.body() != null;
                     TempCache.vendor = response.body().get(0);
+                    fetchCities();
+                    fetchStates();
                     listener.setProfileViews();
                     listener.hideLoadingPanel();
                     listener.showInfo();
@@ -337,7 +359,7 @@ public class profileController {
     }
 
     public String getStateById(int id){
-        for(State state: states){
+        for(State state: ProfileCache.states){
             if(state.getState_id() == id)
                 return state.getName();
         }
@@ -345,7 +367,7 @@ public class profileController {
     }
 
     public String getCityById(int id){
-        for(City city: cities){
+        for(City city: ProfileCache.allCities){
             if(city.getCity_id() == id)
                 return city.getName();
         }

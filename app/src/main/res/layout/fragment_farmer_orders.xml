@@ -7,10 +7,5 @@
     android:orientation="vertical"
     android:background="@color/white">
     <include
-        android:id="@+id/empty_page"
-        layout="@layout/empty_order"/>
-    <include
-        android:id="@+id/error_view"
-        layout="@layout/something_went_wrong"
-        android:visibility="gone"/>
+        layout="@layout/fragment_orders"/>
 </LinearLayout>

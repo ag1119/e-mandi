@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.Menu;
 
 import com.cstup.e_mandi.Cache.MyCropsCache;
+import com.cstup.e_mandi.Cache.OrdersCache;
 import com.cstup.e_mandi.R;
 import com.cstup.e_mandi.model.FragmentParams;
 import com.cstup.e_mandi.utilities.GenericMethods;
@@ -20,7 +21,12 @@ public class HomeActivity extends AppCompatActivity {
         void hideBtnContainer();
         void showRecyclerView();
     }
-    public static MyCropsEventListener listener;
+    public interface OrderEventListener{
+        void hideOrderDetails();
+        void showOrderContainer();
+    }
+    public static MyCropsEventListener myCropsEventListener;
+    public static OrderEventListener orderEventListener;
     private BottomNavigationView bottomNavigationView;
     private Menu menu;
     GenericMethods genericMethods;
@@ -63,9 +69,14 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         if(MyCropsCache.IS_EDIT_CONTAINER_VISIBLE && MyCropsCache.IS_MY_CROP_CONTEXT){
-            listener.hideBtnContainer();
-            listener.hideEditContainer();
-            listener.showRecyclerView();
+            myCropsEventListener.hideBtnContainer();
+            myCropsEventListener.hideEditContainer();
+            myCropsEventListener.showRecyclerView();
+            return;
+        }
+        if(OrdersCache.isOrderDetailsVisible && OrdersCache.isOrderContext){
+            orderEventListener.hideOrderDetails();
+            orderEventListener.showOrderContainer();
             return;
         }
         if(getSupportFragmentManager().getBackStackEntryCount() == 1)

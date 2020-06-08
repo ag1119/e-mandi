@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 
+import com.cstup.e_mandi.Cache.OrdersCache;
 import com.cstup.e_mandi.R;
 import com.cstup.e_mandi.adapters.cropVendorsAdapter;
 import com.cstup.e_mandi.model.FragmentParams;
@@ -14,6 +15,12 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class BottomNavigation extends AppCompatActivity implements AdapterEventListener {
 
+    public interface orderEventListener{
+        void hideOrderDetails();
+        void showOrderContainer();
+    }
+
+    public static orderEventListener orderEventListener;
     private BottomNavigationView bottomNavigationView;
     private Menu menu;
     @Override
@@ -58,6 +65,12 @@ public class BottomNavigation extends AppCompatActivity implements AdapterEventL
 
     @Override
     public void onBackPressed() {
+        if(OrdersCache.isOrderDetailsVisible && OrdersCache.isOrderContext){
+            orderEventListener.hideOrderDetails();
+            orderEventListener.showOrderContainer();
+            return;
+        }
+
         if(getSupportFragmentManager().getBackStackEntryCount() == 1)
             finish();
         else{

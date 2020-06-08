@@ -88,6 +88,9 @@
     <string name="order_placed">Placed</string>
     <string name="order_confirmed">Confirmed</string>
     <string name="order_delivered">Delivered</string>
+    <string name="order_cancelled">Order Cancelled</string>
+    <string name="customer">Customer</string>
+    <string name="delivery_address">Enter your delivery address</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

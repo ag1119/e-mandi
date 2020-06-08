@@ -1,39 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+    android:id="@+id/swipe_refresh"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".views.user.fragments.orders"
     android:orientation="vertical">
-
-    <include
-        android:id="@+id/empty_page"
-        layout="@layout/empty_order"
-        android:visibility="gone"/>
-    <include
-        android:id="@+id/error_view"
-        layout="@layout/something_went_wrong"
-        android:visibility="gone"/>
-    <LinearLayout
-        android:id="@+id/order_container"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:background="@color/white">
-        <TextView
+        android:layout_height="match_parent">
+        <include
+            android:id="@+id/empty_page"
+            layout="@layout/empty_order"
+            android:visibility="gone"/>
+        <include
+            android:id="@+id/error_view"
+            layout="@layout/something_went_wrong"
+            android:visibility="gone"/>
+        <RelativeLayout
+            android:id="@+id/order_container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin"
-            android:padding="@dimen/padding"
-            android:text="@string/my_orders_tv"
-            android:textColor="@color/green"
-            android:gravity="center"
-            android:fontFamily="@font/amarante"
-            android:textSize="@dimen/page_title"/>
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-    </LinearLayout>
-</RelativeLayout>
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="@color/white"
+            android:visibility="visible">
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin"
+                android:text="@string/my_orders_tv"
+                android:padding="@dimen/padding"
+                android:textColor="@color/green"
+                android:gravity="center"
+                android:fontFamily="@font/amarante"
+                android:textSize="@dimen/page_title"
+                android:layout_alignParentTop="true"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/title"/>
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:visibility="gone"/>
+        </RelativeLayout>
+        <include
+            android:id="@+id/order_details"
+            layout="@layout/order_details"
+            android:visibility="gone"/>
+    </RelativeLayout>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

@@ -99,8 +99,6 @@ public class profile extends Fragment implements profileController. EventListene
 
         if(TempCache.isFetchUserProfileFirstCall){
             profileController.getUser();
-            profileController.fetchStates();
-            profileController.fetchCities();
             TempCache.isFetchUserProfileFirstCall = false;
         }
         else {
@@ -383,24 +381,22 @@ public class profile extends Fragment implements profileController. EventListene
     public void setProfileViews() {
         String name = TempCache.user.getName();
         String contact = TempCache.user.getContact()+"";
-        String state = null;
-        if(TempCache.user.getStateId() != null)
-            state = profileController.getStateById(TempCache.user.getStateId());
-        String city = null;
-        if(TempCache.user.getCityId() != null)
-            city = profileController.getCityById(TempCache.user.getCityId());
         String address = TempCache.user.getAddress();
         String pin = TempCache.user.getPinCode() + "";
         String imagePath = TempCache.user.getProfilePicture();
 
         setName(name);
         setContact(contact);
-        setState(state);
-        setCity(city);
         setAddress(address);
         setTv_pin(pin);
         if(imagePath != null)
             setProfile_image(Uri.parse(imagePath));
+        if(!TempCache.isFetchUserProfileFirstCall){
+            if(TempCache.user.getCityId() != null)
+                setCity(profileController.getCityById(TempCache.user.getCityId()));
+            if(TempCache.user.getStateId() != null)
+                setState(profileController.getStateById(TempCache.user.getStateId()));
+        }
 
     }
 

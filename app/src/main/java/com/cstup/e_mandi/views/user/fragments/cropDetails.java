@@ -14,10 +14,8 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewStructure;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
@@ -30,9 +28,8 @@ import com.cstup.e_mandi.adapters.cropDetailsAdapter;
 import com.cstup.e_mandi.controllers.cartController;
 import com.cstup.e_mandi.controllers.cropDetailsController;
 import com.cstup.e_mandi.environmentVariables.test.Crops;
-import com.cstup.e_mandi.model.Get.Crop;
 import com.cstup.e_mandi.model.Get.CropType;
-import com.cstup.e_mandi.model.Get.VendorDetails;
+import com.cstup.e_mandi.model.Get.BasicDetails;
 import com.cstup.e_mandi.model.Post.CartItem;
 import com.cstup.e_mandi.utilities.QtyAndPrice;
 import com.cstup.e_mandi.utilities.TempCache;
@@ -113,7 +110,7 @@ public class cropDetails extends Fragment implements cropDetailsAdapter.EventLis
                     TempCache.IS_VENDOR_BASIC_INFO_FIRST_CALL = false;
                 }
                 else{
-                    setVendorsDetail(TempCache.vendorDetails);
+                    setVendorsDetail(TempCache.basicDetails);
                 }
                 view_vendor_details.setCompoundDrawablesWithIntrinsicBounds(
                         null ,
@@ -383,7 +380,7 @@ public class cropDetails extends Fragment implements cropDetailsAdapter.EventLis
     }
 
     @Override
-    public void setVendorsDetail(VendorDetails vendorsDetail) {
+    public void setVendorsDetail(BasicDetails vendorsDetail) {
         if(vendorsDetail.getProfile_picture() != null)
             Glide.with(Objects.requireNonNull(getContext()))
                 .load(Uri.parse(vendorsDetail.getProfile_picture()))

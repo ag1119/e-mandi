@@ -3,7 +3,7 @@ package com.cstup.e_mandi.model.Get;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class VendorDetails {
+public class BasicDetails {
     @SerializedName("id")
     @Expose
     private Integer id;

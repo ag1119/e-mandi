@@ -50,9 +50,11 @@ public class cartController {
     private EventListener listener;
     private CartListener cartListener;
     private CartAdapterListener cartAdapterListener;
-    private final String error_msg = "some error occurred while loading cart";
+    private final String error_msg = "some error occurred";
 
 
+
+    cartController(){}
 
     public cartController(EventListener listener){
         this.listener = listener;
@@ -78,6 +80,7 @@ public class cartController {
                     listener.hideProgressBarAddToCart();
                     listener.showToast("Crop added to cart successfully");
                     listener.resetQuantity();
+                    TempCache.CART_FIRST_CALL = false;
                 }
                 else {
                     listener.showAddToCartBtn();
@@ -128,15 +131,19 @@ public class cartController {
             @Override
             public void onResponse(@NonNull Call<List<MyResponse>> call,@NonNull Response<List<MyResponse>> response) {
                 if(response.isSuccessful()){
-                    cartAdapterListener.showToast("Item deleted successfully");
+                    if(cartAdapterListener != null)
+                        cartAdapterListener.showToast("Item deleted successfully");
                 }
-                else
-                    cartAdapterListener.showToast(error_msg);
+                else{
+                    if(cartAdapterListener != null)
+                        cartAdapterListener.showToast(error_msg);
+                }
             }
 
             @Override
             public void onFailure(@NonNull Call<List<MyResponse>> call,@NonNull Throwable t) {
-                listener.showToast(t.getMessage());
+                if(listener != null)
+                    listener.showToast(t.getMessage());
             }
         });
     }
@@ -184,6 +191,7 @@ public class cartController {
         }
         else {
             cartListener.showEmptyPage();
+            cartListener.hideProgressBar();
         }
     }
 

@@ -1,5 +1,6 @@
 package com.cstup.e_mandi.controllers;
 
+import android.util.Log;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -50,10 +51,12 @@ public class myCropsController {
         call.enqueue(new Callback<List<MyCrops>>() {
             @Override
             public void onResponse(@NonNull Call<List<MyCrops>> call,@NonNull Response<List<MyCrops>> response) {
+                Log.v("onResponse " , "fetch_my_crops");
                 if(response.isSuccessful()){
                     myCrops.clear();
                     assert response.body() != null;
                     myCrops.addAll(response.body());
+                    Log.v("list_size " , myCrops.size() + "");
                     if(myCrops.size() > 0){
                         listener.showRecyclerView();
                         listener.notifyChanges();

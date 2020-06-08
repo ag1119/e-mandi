@@ -101,8 +101,6 @@ public class farmer_profile extends Fragment implements profileController.EventL
 
         if(TempCache.isFetchVendorProfileFirstCall){
             profileController.getVendor();
-            profileController.fetchStates();
-            profileController.fetchCities();
             TempCache.isFetchVendorProfileFirstCall = false;
         }
         else{
@@ -371,24 +369,22 @@ public class farmer_profile extends Fragment implements profileController.EventL
     public void setProfileViews() {
         String name = TempCache.vendor.getName();
         String contact = TempCache.vendor.getContact()+"";
-        String state = null;
-        if(TempCache.vendor.getStateId() != null)
-            state = profileController.getStateById(TempCache.vendor.getStateId());
-        String city = null;
-        if(TempCache.vendor.getCityId() != null)
-            city = profileController.getCityById(TempCache.vendor.getCityId());
         String address = TempCache.vendor.getAddress();
         String pin = TempCache.vendor.getPinCode() + "";
         String imagePath = TempCache.vendor.getProfilePicture();
 
         setName(name);
         setContact(contact);
-        setState(state);
-        setCity(city);
         setAddress(address);
         setTv_pin(pin);
         if(imagePath != null)
             setProfile_image(Uri.parse(imagePath));
+        if(!TempCache.isFetchVendorProfileFirstCall){
+            if(TempCache.vendor.getCityId() != null)
+                setCity(profileController.getCityById(TempCache.vendor.getCityId()));
+            if(TempCache.vendor.getStateId() != null)
+                setState(profileController.getStateById(TempCache.vendor.getStateId()));
+        }
 
     }
 

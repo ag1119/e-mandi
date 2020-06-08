@@ -4,7 +4,7 @@ import androidx.annotation.NonNull;
 
 import com.cstup.e_mandi.environmentVariables.ev;
 import com.cstup.e_mandi.model.Get.Crop;
-import com.cstup.e_mandi.model.Get.VendorDetails;
+import com.cstup.e_mandi.model.Get.BasicDetails;
 import com.cstup.e_mandi.services.DataService;
 import com.cstup.e_mandi.services.RetrofitInstance;
 import com.cstup.e_mandi.utilities.TempCache;
@@ -27,7 +27,7 @@ public class cropDetailsController {
         void hideProgressBar();
         void showErrorPage();
         void showToast(String msg);
-        void setVendorsDetail(VendorDetails vendorsDetail);
+        void setVendorsDetail(BasicDetails vendorsDetail);
     }
     private EventListener listener;
     private ArrayList<Crop> list =  new ArrayList<>();
@@ -68,16 +68,16 @@ public class cropDetailsController {
     public void getVendorInfo(){
         listener.showLoadingPanel();
         listener.hideInfo();
-        Call<List<VendorDetails>> call = service.getVendorDetails(TempCache.crop.getVendorId());
-        call.enqueue(new Callback<List<VendorDetails>>() {
+        Call<List<BasicDetails>> call = service.getVendorDetails(TempCache.crop.getVendorId());
+        call.enqueue(new Callback<List<BasicDetails>>() {
             @Override
-            public void onResponse(@NonNull Call<List<VendorDetails>> call,@NonNull Response<List<VendorDetails>> response) {
+            public void onResponse(@NonNull Call<List<BasicDetails>> call, @NonNull Response<List<BasicDetails>> response) {
                 if(response.isSuccessful()){
                     listener.hideLoadingPanel();
                     listener.showInfo();
                     assert response.body() != null;
-                    TempCache.vendorDetails = response.body().get(0);
-                    listener.setVendorsDetail(TempCache.vendorDetails);
+                    TempCache.basicDetails = response.body().get(0);
+                    listener.setVendorsDetail(TempCache.basicDetails);
                 }
                 else {
                     listener.showToast(error_msg);
@@ -86,7 +86,7 @@ public class cropDetailsController {
             }
 
             @Override
-            public void onFailure(@NonNull Call<List<VendorDetails>> call,@NonNull Throwable t) {
+            public void onFailure(@NonNull Call<List<BasicDetails>> call, @NonNull Throwable t) {
                 listener.showToast(t.getMessage());
                 TempCache.IS_VENDOR_BASIC_INFO_FIRST_CALL = true;
             }

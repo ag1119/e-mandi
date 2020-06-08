@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.cstup.e_mandi.Cache.MyCropsCache;
+import com.cstup.e_mandi.Cache.OrdersCache;
 import com.cstup.e_mandi.R;
 import com.cstup.e_mandi.environmentVariables.test.Crops;
 import com.cstup.e_mandi.model.FragmentParams;
@@ -17,6 +18,9 @@ import java.util.Objects;
 public class GenericMethods {
 
     public void setFragment(FragmentParams params){
+        MyCropsCache.IS_MY_CROP_CONTEXT = constants.FARMER_MY_CROP_FRAGMENT_TAG.equals(params.getTag());
+        OrdersCache.isOrderContext = constants.FRAMER_ORDER_FRAGMENT_TAG.equals(params.getTag()) ||
+                                        constants.ORDERS_TAG.equals(params.getTag());
         FragmentManager fragmentManager = ((AppCompatActivity) params.getContext()).getSupportFragmentManager();
         if(fragmentManager.findFragmentByTag(params.getTag()) == null)
             fragmentManager.beginTransaction().replace(params.getFrame_id() , params.getFragment() , params.getTag())
@@ -34,6 +38,9 @@ public class GenericMethods {
     public void setFragment(Fragment fragment , Context context , String tag , int frame_id){
 
         MyCropsCache.IS_MY_CROP_CONTEXT = constants.FARMER_MY_CROP_FRAGMENT_TAG.equals(tag);
+        OrdersCache.isOrderContext = constants.FRAMER_ORDER_FRAGMENT_TAG.equals(tag) ||
+                constants.ORDERS_TAG.equals(tag);
+
 
         FragmentManager fragmentManager = ((AppCompatActivity) context).getSupportFragmentManager();
         if(fragmentManager.findFragmentByTag(tag) == null)

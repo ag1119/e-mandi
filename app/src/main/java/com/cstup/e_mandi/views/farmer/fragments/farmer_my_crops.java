@@ -12,7 +12,6 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -173,17 +172,11 @@ public class farmer_my_crops extends Fragment implements
              controller.fetchMyCrops();
          });
 
-         kg.setOnClickListener(v -> {
-             setCropQtyAndPrice();
-         });
+         kg.setOnClickListener(v -> setCropQtyAndPrice());
 
-         quintol.setOnClickListener(v -> {
-             setCropQtyAndPrice();
-         });
+         quintol.setOnClickListener(v -> setCropQtyAndPrice());
 
-         perQuintol.setOnClickListener(v -> {
-             setCropQtyAndPrice();
-         });
+         perQuintol.setOnClickListener(v -> setCropQtyAndPrice());
          return view;
     }
 
@@ -216,7 +209,7 @@ public class farmer_my_crops extends Fragment implements
         tryAgain = v.findViewById(R.id.try_again_tv);
 
         controller = new myCropsController(this);
-        HomeActivity.listener = this;
+        HomeActivity.myCropsEventListener = this;
     }
 
     private void setViews(){

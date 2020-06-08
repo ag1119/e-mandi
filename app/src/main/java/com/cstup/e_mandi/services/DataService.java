@@ -3,15 +3,19 @@ package com.cstup.e_mandi.services;
 import com.cstup.e_mandi.model.Get.City;
 import com.cstup.e_mandi.model.Get.CropType;
 import com.cstup.e_mandi.model.Get.MyCrops;
+import com.cstup.e_mandi.model.Get.Order;
+import com.cstup.e_mandi.model.Get.PartialOrder;
 import com.cstup.e_mandi.model.Get.State;
 import com.cstup.e_mandi.model.Get.User;
 import com.cstup.e_mandi.model.Get.Vendor;
-import com.cstup.e_mandi.model.Get.VendorDetails;
+import com.cstup.e_mandi.model.Get.BasicDetails;
 import com.cstup.e_mandi.model.Login_SignUp;
 import com.cstup.e_mandi.model.MyResponse;
 import com.cstup.e_mandi.model.Patch.MyCrop;
 import com.cstup.e_mandi.model.Post.CartItem;
 import com.cstup.e_mandi.model.Post.Crop;
+import com.cstup.e_mandi.model.Post.OrderId;
+import com.cstup.e_mandi.model.Post.Orders;
 import com.cstup.e_mandi.model.Post.UserProfile;
 import com.cstup.e_mandi.model.Post.VendorProfile;
 
@@ -48,7 +52,9 @@ public interface DataService {
     @PATCH("vendor/me")
     Call<List<MyResponse>> patchVendorProfile(@Header("X-Auth-Token") String x_auth_token , @Body VendorProfile vendorProfile);
     @GET("vendor/{id}")
-    Call<List<VendorDetails>> getVendorDetails(@Path("id") Integer id);
+    Call<List<BasicDetails>> getVendorDetails(@Path("id") Integer id);
+    @GET("user/{id}")
+    Call<List<BasicDetails>> getUserDetails(@Path("id") Integer id);
 
     //Home page services
     @GET("crop_type")
@@ -87,4 +93,20 @@ public interface DataService {
     Call<List<MyResponse>> updateCartItem(@Header("X-Auth-Token") String x_auth_token ,
                                           @Path("id") Integer id ,
                                           @Body com.cstup.e_mandi.model.Patch.CartItem cartItem);
+
+    //orders
+    @GET("order/me")
+    Call<List<PartialOrder>> getPartialOrders(@Header("X-Auth-Token") String x_auth_token);
+    @GET("order/{id}")
+    Call<List<Order>> getMyOrder(@Header("X-Auth-Token") String x_auth_token ,
+                                 @Path("id") Integer id);
+    @POST("order/request")
+    Call<List<Order>> placeMyOrder(@Header("X-Auth-Token") String x_auth_token ,
+                                   @Body Orders orders);
+    @POST("order/cancel")
+    Call<List<MyResponse>> cancelOrder(@Header("X-Auth-Token") String x_auth_token ,
+                                       @Body OrderId orderId);
+    @POST("order/confirm")
+    Call<List<MyResponse>> confirmOrder(@Header("X-Auth-Token") String x_auth_token ,
+                                       @Body OrderId orderId);
 }
