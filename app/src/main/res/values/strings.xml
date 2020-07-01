@@ -80,7 +80,8 @@
     <string name="cancel">cancel</string>
     <string name="empty_my_crop_txt">You do not have any crop to sell. Please add some crops!</string>
     <string name="my_orders_tv">My Orders</string>
-    <string name="order_qty">Order Quantity: </string>
+    <string name="item_qty">Item Quantity: </string>
+    <string name="item_cost">Item Cost: </string>
     <string name="order_cost">Order Cost: </string>
     <string name="order_status">Status</string>
     <string name="cancel_order">Cancel Order</string>
@@ -91,6 +92,8 @@
     <string name="order_cancelled">Order Cancelled</string>
     <string name="customer">Customer</string>
     <string name="delivery_address">Enter your delivery address</string>
+    <string name="order_id">Order Id : </string>
+    <string name="track_order">track order</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

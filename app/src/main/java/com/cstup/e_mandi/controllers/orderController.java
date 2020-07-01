@@ -8,6 +8,7 @@ import com.cstup.e_mandi.model.Get.Order;
 import com.cstup.e_mandi.model.Get.PartialOrder;
 import com.cstup.e_mandi.model.Get.BasicDetails;
 import com.cstup.e_mandi.model.MyResponse;
+import com.cstup.e_mandi.model.OrderDetails;
 import com.cstup.e_mandi.model.Post.OrderId;
 import com.cstup.e_mandi.model.Post.Orders;
 import com.cstup.e_mandi.services.DataService;
@@ -41,6 +42,8 @@ public class orderController {
         void hideBtnContainer();
         void hideOrderDetails();
         void showOrderContainer();
+        void notifyOrderDetails();
+        void displayOrderDetails(OrderDetails orderDetails);
     }
 
     public interface cartEventListener{
@@ -86,16 +89,16 @@ public class orderController {
             public void onResponse(@NonNull Call<List<PartialOrder>> call,@NonNull Response<List<PartialOrder>> response) {
                 if(response.isSuccessful()){
                     partialOrders.clear();
-                    orders.clear();
                     listener.notifyChanges();
                     listener.hideProgressBar();
                     assert response.body() != null;
                     partialOrders.addAll(response.body());
                     if(partialOrders.size() > 0){
-                        for(PartialOrder item : partialOrders){
-                            //listener.notifyChanges();
-                            fetchOrderItem(item.getOrderId());
-                        }
+                        listener.notifyChanges();
+                        if(TempCache.USER_TYPE.equals(constants.USER))
+                            OrdersCache.isUserOrderFirstCall = false;
+                        else
+                            OrdersCache.isVendorOrderFirstCall = false;
                     }
                     else{
                         listener.hideOrderContainer();
@@ -119,19 +122,17 @@ public class orderController {
         });
     }
 
-    private void fetchOrderItem(Integer id){
+    public void fetchOrderItem(Integer id){
         Call<List<Order>> call = service.getMyOrder(ACCESS_TOKEN , id);
         call.enqueue(new Callback<List<Order>>() {
             @Override
             public void onResponse(@NonNull Call<List<Order>> call,@NonNull Response<List<Order>> response) {
                 if(response.isSuccessful()){
+                    orders.clear();
                     assert response.body() != null;
                     orders.addAll(response.body());
-                    listener.notifyChanges();
-                    if(TempCache.USER_TYPE.equals(constants.USER))
-                        OrdersCache.isUserOrderFirstCall = false;
-                    else
-                        OrdersCache.isVendorOrderFirstCall = false;
+                    listener.notifyOrderDetails();
+                    listener.displayOrderDetails(getOrderDetails());
                 }
                 else{
                     listener.showToast(error_msg);
@@ -275,5 +276,20 @@ public class orderController {
              listener.hideBtnProgressBar();
          }
      });
+    }
+
+    private OrderDetails getOrderDetails(){
+        OrderDetails details = new OrderDetails();
+        details.setTotalOrderCost(getOrderCost());
+        details.setOrderStatus(orders.get(0).getOrderStatus());
+        details.setDeliveryAddress(orders.get(0).getDeliveryAddress());
+        return details;
+    }
+
+    private double getOrderCost(){
+        double cost = 0;
+        for(Order order: orders)
+            cost += order.getItemFreezedCost();
+        return cost;
     }
 }

@@ -22,10 +22,11 @@ import com.bumptech.glide.Glide;
 import com.cstup.e_mandi.Cache.OrdersCache;
 import com.cstup.e_mandi.R;
 import com.cstup.e_mandi.adapters.orderAdapter;
+import com.cstup.e_mandi.adapters.orderItemsAdapter;
 import com.cstup.e_mandi.controllers.orderController;
-import com.cstup.e_mandi.model.Get.Order;
+import com.cstup.e_mandi.model.Get.PartialOrder;
+import com.cstup.e_mandi.model.OrderDetails;
 import com.cstup.e_mandi.model.Post.OrderId;
-import com.cstup.e_mandi.utilities.constants;
 import com.cstup.e_mandi.views.user.activites.BottomNavigation;
 
 import java.util.Objects;
@@ -44,12 +45,6 @@ public class orders extends Fragment implements orderController.EventListener ,
     private orderController controller;
 
     private View orderDetails;
-    private View loadingPanel;
-    private LinearLayout contentContainer;
-    private CircleImageView cropImage;
-    private TextView cropName;
-    private TextView orderQty;
-    private TextView orderCost;
     private LinearLayout orderStatusContainer;
     private TextView orderConfirmedLine;
     private TextView orderConfirmedCircle;
@@ -69,6 +64,9 @@ public class orders extends Fragment implements orderController.EventListener ,
     private TextView address;
 
     private SwipeRefreshLayout swipeRefreshLayout;
+
+    private RecyclerView orderDetailsRV;
+    private RecyclerView.Adapter orderDetailsAdapter;
     public orders() {
         // Required empty public constructor
     }
@@ -106,7 +104,7 @@ public class orders extends Fragment implements orderController.EventListener ,
 
         cancelOrder.setOnClickListener(v -> {
             OrderId orderId = new OrderId();
-            orderId.setOrder_id(OrdersCache.selectedOrder.getOrderId());
+            orderId.setOrder_id(OrdersCache.selectedOrderId);
             controller.cancelOrder(orderId);
         });
 
@@ -122,12 +120,6 @@ public class orders extends Fragment implements orderController.EventListener ,
         tryAgain = v.findViewById(R.id.try_again_tv);
 
         orderDetails = v.findViewById(R.id.order_details);
-        loadingPanel = v.findViewById(R.id.loading_panel);
-        contentContainer = v.findViewById(R.id.content_container);
-        cropImage = v.findViewById(R.id.crop_image);
-        cropName = v.findViewById(R.id.crop_name);
-        orderQty = v.findViewById(R.id.order_qty);
-        orderCost = v.findViewById(R.id.order_cost);
         orderStatusContainer = v.findViewById(R.id.status_container);
         orderConfirmedLine = v.findViewById(R.id.order_confirmed_line);
         orderConfirmedCircle = v.findViewById(R.id.order_confirmed_circle);
@@ -147,6 +139,8 @@ public class orders extends Fragment implements orderController.EventListener ,
 
         swipeRefreshLayout = v.findViewById(R.id.swipe_refresh);
 
+        orderDetailsRV = v.findViewById(R.id.order_items_rv);
+
         controller = new orderController(this);
         BottomNavigation.orderEventListener = this;
     }
@@ -154,7 +148,7 @@ public class orders extends Fragment implements orderController.EventListener ,
     private void setRecyclerView(){
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new orderAdapter(OrdersCache.userOrders , this);
+        adapter = new orderAdapter(OrdersCache.userPartialOrders , this);
         recyclerView.setAdapter(adapter);
     }
 
@@ -162,53 +156,43 @@ public class orders extends Fragment implements orderController.EventListener ,
         errorPage.setVisibility(View.GONE);
     }
 
-    private void hideLoadingPanel(){loadingPanel.setVisibility(View.GONE);}
-
-    private void setCropImage(String url){
-        if(url != null)
-            Glide.with(Objects.requireNonNull(getContext())).load(Uri.parse(url)).centerCrop().into(cropImage);
-    }
-
-    private void setCropName(String name){
-        if(name != null)
-            cropName.setText(name);
-    }
-
-    private void setOrderQty(double qty){
-        String type = constants.TYPE_KG;
-        if(qty > 100){
-            qty /= 100;
-            type = constants.TYPE_QUINTOL;
-        }
-        String qty_txt = getString(R.string.order_qty) + String.format("%.2f" , qty) + type;
-        orderQty.setText(qty_txt);
-    }
-
-    private void setOrderCost(double cost){
-        String order_cost_txt = Objects.requireNonNull(getContext()).getString(R.string.order_cost)
-                +getString(R.string.rupee)
-                + cost;
-        orderCost.setText(order_cost_txt);
-    }
 
     private void setOrderStatus(String status){
+        String GREEN = "GREEN";
+        String GRAY = "GRAY";
         switch (status){
             case OrdersCache.STATUS_CONFIRMED:
-                fillOrderedConfirmedLine();
-                fillOrderedConfirmedCircle();
+                fillOrderedConfirmedLine(GREEN);
+                fillOrderedConfirmedCircle(GREEN);
+                fillOrderedDeliveredCircle(GRAY);
+                fillOrderedDeliveredLine(GRAY);
                 hideCancelledOrderTv();
                 showOrderStatusContainer();
+                showBtnContainer();
                 break;
 
             case OrdersCache.STATUS_DELIVERED:
-                fillOrderedDeliveredLine();
-                fillOrderedDeliveredCircle();
+                fillOrderedConfirmedLine(GREEN);
+                fillOrderedConfirmedCircle(GREEN);
+                fillOrderedDeliveredLine(GREEN);
+                fillOrderedDeliveredCircle(GREEN);
                 hideCancelledOrderTv();
                 showOrderStatusContainer();
+                hideBtnContainer();
                 break;
             case OrdersCache.STATUS_CANCELLED:
                 hideOrderStatusContainer();
                 showCancelledOrderTv();
+                hideBtnContainer();
+                break;
+            default:
+                fillOrderedConfirmedLine(GRAY);
+                fillOrderedConfirmedCircle(GRAY);
+                fillOrderedDeliveredLine(GRAY);
+                fillOrderedDeliveredCircle(GRAY);
+                showOrderStatusContainer();
+                hideCancelledOrderTv();
+                showBtnContainer();
                 break;
         }
     }
@@ -222,31 +206,59 @@ public class orders extends Fragment implements orderController.EventListener ,
         titleTv.setText(getString(R.string.vendor));
     }
 
-    private void showContentContainer(){
-        contentContainer.setVisibility(View.VISIBLE);
+    private void showOrderDetails(){
+        orderDetails.setVisibility(View.VISIBLE);
+        swipeRefreshLayout.setEnabled(false);
     }
 
-    private void fillOrderedDeliveredLine(){
-        orderDeliveredLine.setBackgroundColor(ContextCompat.getColor(Objects.requireNonNull(getContext()), R.color.green));
+    private void fillOrderedDeliveredLine(String color){
+        switch (color){
+            case "GREEN":
+                orderDeliveredLine.setBackgroundColor(ContextCompat.getColor(Objects.requireNonNull(getContext()), R.color.green));
+                break;
+            case "GRAY":
+                orderDeliveredLine.setBackgroundColor(ContextCompat.getColor(Objects.requireNonNull(getContext()), R.color.light_gray));
+        }
     }
 
-    private void fillOrderedDeliveredCircle(){
-        orderDeliveredCircle.setBackgroundColor(ContextCompat.getColor(Objects.requireNonNull(getContext()), R.color.green));
+    private void fillOrderedDeliveredCircle(String color){
+        switch (color){
+            case "GREEN":
+                orderDeliveredCircle.setBackground(ContextCompat.getDrawable(Objects.requireNonNull(getContext()), R.drawable.cust_circle_green_back));
+                break;
+            case "GRAY":
+                orderDeliveredCircle.setBackground(ContextCompat.getDrawable(Objects.requireNonNull(getContext()), R.drawable.cust_gray_circle));
+                break;
+        }
     }
 
-    private void fillOrderedConfirmedLine(){
-        orderConfirmedLine.setBackgroundColor(ContextCompat.getColor(Objects.requireNonNull(getContext()), R.color.green));
+    private void fillOrderedConfirmedLine(String color){
+        switch (color){
+            case "GREEN":
+                orderConfirmedLine.setBackgroundColor(ContextCompat.getColor(Objects.requireNonNull(getContext()), R.color.green));
+                break;
+            case "GRAY":
+                orderConfirmedLine.setBackgroundColor(ContextCompat.getColor(Objects.requireNonNull(getContext()), R.color.light_gray));
+        }
     }
 
-    private void fillOrderedConfirmedCircle(){
-        orderConfirmedCircle.setBackgroundColor(ContextCompat.getColor(Objects.requireNonNull(getContext()), R.color.green));
+    private void fillOrderedConfirmedCircle(String color){
+        switch (color){
+            case "GREEN":
+                orderConfirmedCircle.setBackground(ContextCompat.getDrawable(Objects.requireNonNull(getContext()), R.drawable.cust_circle_green_back));
+                break;
+            case "GRAY":
+                orderConfirmedCircle.setBackground(ContextCompat.getDrawable(Objects.requireNonNull(getContext()), R.drawable.cust_gray_circle));
+                break;
+        }
+
     }
 
     private void showCancelOrderBtn(){cancelOrder.setVisibility(View.VISIBLE);}
 
     private void showCancelledOrderTv(){cancelledOrderTv.setVisibility(View.VISIBLE);}
 
-    private void hideCancelledOrderTv(){cancelledOrderTv.setVisibility(View.VISIBLE);}
+    private void hideCancelledOrderTv(){cancelledOrderTv.setVisibility(View.GONE);}
 
     private void showOrderStatusContainer(){orderStatusContainer.setVisibility(View.VISIBLE);}
 
@@ -324,6 +336,17 @@ public class orders extends Fragment implements orderController.EventListener ,
     }
 
     @Override
+    public void notifyOrderDetails() {
+        orderDetailsAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void displayOrderDetails(OrderDetails orderDetails) {
+        setDeliveryAddress(orderDetails.getDeliveryAddress());
+        setOrderStatus(orderDetails.getOrderStatus());
+    }
+
+    @Override
     public void hideOrderContainer(){
         orderContainer.setVisibility(View.GONE);
     }
@@ -339,35 +362,31 @@ public class orders extends Fragment implements orderController.EventListener ,
     }
 
     @Override
-    public void showOrderDetails(Order order) {
+    public void showOrderDetails(PartialOrder partialOrder) {
         OrdersCache.isOrderDetailsVisible = true;
-        controller.getDetails(order.getVendorId());
+        controller.getDetails(partialOrder.getVendorId());
+
         hideOrderContainer();
-        hideLoadingPanel();
-        showContentContainer();
+        showOrderDetails();
         showCancelOrderBtn();
         orderDetails.setVisibility(View.VISIBLE);
         setTitleTv();
-        String url = order.getCropImage();
-        if(url == null)
-            url = order.getCropTypeImage();
-        String name = order.getCropName();
-        double qty = order.getItemQty();
-        double cost = order.getItemFreezedCost();
-        String status = order.getOrderStatus();
-        String address = order.getDeliveryAddress();
+        setOrderDetailsRV();
+        controller.fetchOrderItem(partialOrder.getOrderId());
+    }
 
-        setCropImage(url);
-        setCropName(name);
-        setOrderQty(qty);
-        setOrderCost(cost);
-        setOrderStatus(status);
-        setDeliveryAddress(address);
+    private void setOrderDetailsRV(){
+        orderDetailsRV.setHasFixedSize(true);
+        orderDetailsRV.setLayoutManager(new LinearLayoutManager(getContext()));
+        orderDetailsAdapter = new orderItemsAdapter(OrdersCache.userOrders);
+        orderDetailsRV.setAdapter(orderDetailsAdapter);
+        notifyOrderDetails();
     }
 
     @Override
     public void hideOrderDetails() {
         orderDetails.setVisibility(View.GONE);
         OrdersCache.isOrderDetailsVisible = false;
+        swipeRefreshLayout.setEnabled(true);
     }
 }

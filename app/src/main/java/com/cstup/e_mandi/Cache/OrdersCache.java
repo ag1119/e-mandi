@@ -2,6 +2,7 @@ package com.cstup.e_mandi.Cache;
 
 import com.cstup.e_mandi.model.Get.Order;
 import com.cstup.e_mandi.model.Get.PartialOrder;
+import com.cstup.e_mandi.model.Post.OrderId;
 
 import java.util.ArrayList;
 
@@ -11,7 +12,8 @@ public class OrdersCache {
     public static ArrayList<PartialOrder> userPartialOrders = new ArrayList<>();
     public static ArrayList<PartialOrder> vendorPartialOrders = new ArrayList<>();
 
-    public static Order selectedOrder;
+    public static Integer selectedOrderId;
+    public static String orderStatus;
 
     //order status
     public static final String STATUS_PENDING = "PENDING";
